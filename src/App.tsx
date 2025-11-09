@@ -1,37 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCamera } from './useCamera'
 
 function App() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [cameraError, setCameraError] = useState<string>('')
-
-  useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: 'user',
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
-          }
-        })
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream
-        }
-      } catch (err) {
-        setCameraError('Unable to access camera. Please grant camera permissions.')
-        console.error('Camera access error:', err)
-      }
-    }
-
-    startCamera()
-
-    return () => {
-      if (videoRef.current?.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream
-        stream.getTracks().forEach(track => track.stop())
-      }
-    }
-  }, [])
+  const { toggleCamera, cameraError, isCameraOn, videoRef } = useCamera()
 
   return (
     <div className="app-container">
@@ -41,18 +11,19 @@ function App() {
 
       <div className="camera-container">
         {cameraError ? (
-          <div className="camera-error">
-            {cameraError}
-          </div>
+          <div className="camera-error">{cameraError}</div>
+        ) : isCameraOn ? (
+          <video ref={videoRef} autoPlay playsInline className="camera-video" />
         ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="camera-video"
-          />
+          <div className="camera-off">
+            <p>Camera is off</p>
+          </div>
         )}
       </div>
+
+      <button onClick={toggleCamera} className="camera-toggle-btn">
+        {isCameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
+      </button>
     </div>
   )
 }
