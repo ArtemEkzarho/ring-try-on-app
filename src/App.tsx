@@ -1,5 +1,60 @@
+import { useEffect, useRef, useState } from 'react'
+
 function App() {
-  return <h1>Ring Try-On App</h1>
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [cameraError, setCameraError] = useState<string>('')
+
+  useEffect(() => {
+    const startCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: 'user',
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }
+        })
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream
+        }
+      } catch (err) {
+        setCameraError('Unable to access camera. Please grant camera permissions.')
+        console.error('Camera access error:', err)
+      }
+    }
+
+    startCamera()
+
+    return () => {
+      if (videoRef.current?.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream
+        stream.getTracks().forEach(track => track.stop())
+      }
+    }
+  }, [])
+
+  return (
+    <div className="app-container">
+      <header className="app-header">
+        <h1 className="app-title">Ring Try-On</h1>
+      </header>
+
+      <div className="camera-container">
+        {cameraError ? (
+          <div className="camera-error">
+            {cameraError}
+          </div>
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="camera-video"
+          />
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default App
