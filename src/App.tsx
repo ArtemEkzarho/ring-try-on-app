@@ -1,7 +1,8 @@
 import { useCamera } from './useCamera'
 
 function App() {
-  const { toggleCamera, cameraError, isCameraOn, videoRef } = useCamera()
+  const { toggleCamera, switchCamera, cameraError, isCameraOn, facingMode, videoRef } =
+    useCamera()
 
   return (
     <div className="app-container">
@@ -21,9 +22,17 @@ function App() {
         )}
       </div>
 
-      <button onClick={toggleCamera} className="camera-toggle-btn">
-        {isCameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
-      </button>
+      <div className="controls">
+        <button onClick={toggleCamera} className="camera-toggle-btn">
+          {isCameraOn ? 'Turn Off Camera' : 'Turn On Camera'}
+        </button>
+
+        {isCameraOn && (
+          <button onClick={switchCamera} className="camera-switch-btn">
+            Switch to {facingMode === 'user' ? 'Back' : 'Front'} Camera
+          </button>
+        )}
+      </div>
     </div>
   )
 }

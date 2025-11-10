@@ -218,36 +218,72 @@ body {
    Button Component
    ======================== */
 
-.camera-toggle-btn {
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
   margin-top: var(--spacing-lg);
+  width: 100%;
+  max-width: 100%;
+  align-items: center;
+}
+
+.camera-toggle-btn,
+.camera-switch-btn {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-light);
-  background-color: var(--color-primary);
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background-color var(--transition-base);
+  transition:
+    background-color var(--transition-base),
+    transform var(--transition-fast);
   min-width: 180px;
   font-family: inherit;
   -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  max-width: 280px;
+}
+
+.camera-toggle-btn {
+  background-color: var(--color-primary);
 }
 
 .camera-toggle-btn:hover {
   background-color: var(--color-primary-dark);
 }
 
-.camera-toggle-btn:active {
+.camera-switch-btn {
+  background-color: var(--color-text-secondary);
+}
+
+.camera-switch-btn:hover {
+  background-color: var(--color-text-primary);
+}
+
+.camera-toggle-btn:active,
+.camera-switch-btn:active {
   transform: scale(0.98);
 }
 
 /* Tablet and up */
 @media (min-width: 768px) {
-  .camera-toggle-btn {
+  .controls {
+    flex-direction: row;
+    gap: var(--spacing-md);
+    max-width: 640px;
+    justify-content: center;
+  }
+
+  .camera-toggle-btn,
+  .camera-switch-btn {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: var(--font-size-lg);
     min-width: 200px;
+    width: auto;
+    max-width: none;
   }
 }
 
