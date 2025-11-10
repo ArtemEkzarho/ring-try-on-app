@@ -160,6 +160,9 @@ body {
 }
 
 .camera-video {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: block;
@@ -168,6 +171,16 @@ body {
   /* Prevent video controls on mobile */
   -webkit-user-select: none;
   user-select: none;
+}
+
+.hand-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .camera-error {
@@ -229,7 +242,8 @@ body {
 }
 
 .camera-toggle-btn,
-.camera-switch-btn {
+.camera-switch-btn,
+.hand-detection-btn {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
@@ -263,9 +277,26 @@ body {
   background-color: var(--color-text-primary);
 }
 
+.hand-detection-btn {
+  background-color: #10b981;
+}
+
+.hand-detection-btn:hover {
+  background-color: #059669;
+}
+
 .camera-toggle-btn:active,
-.camera-switch-btn:active {
+.camera-switch-btn:active,
+.hand-detection-btn:active {
   transform: scale(0.98);
+}
+
+/* Hand status indicator */
+.hand-status {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 /* Tablet and up */
@@ -275,10 +306,12 @@ body {
     gap: var(--spacing-md);
     max-width: 640px;
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .camera-toggle-btn,
-  .camera-switch-btn {
+  .camera-switch-btn,
+  .hand-detection-btn {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: var(--font-size-lg);
     min-width: 200px;
