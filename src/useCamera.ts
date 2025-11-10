@@ -58,15 +58,9 @@ export const useCamera = () => {
   const switchCamera = async () => {
     if (!isCameraOn) return
 
-    // Stop current camera
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop())
-      streamRef.current = null
-    }
-
+    stopCamera()
     // Switch to the other camera
-    const newMode: FacingMode = facingMode === 'user' ? 'environment' : 'user'
-    await startCamera(newMode)
+    await startCamera(facingMode === 'user' ? 'environment' : 'user')
   }
 
   return {
