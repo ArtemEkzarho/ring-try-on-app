@@ -47,19 +47,11 @@ export const useCamera = () => {
     setIsCameraOn(false)
   }
 
-  const toggleCamera = () => {
-    if (isCameraOn) {
-      stopCamera()
-    } else {
-      startCamera()
-    }
-  }
+  const toggleCamera = () => (isCameraOn ? stopCamera() : startCamera())
 
   const switchCamera = async () => {
     if (!isCameraOn) return
-
     stopCamera()
-    // Switch to the other camera
     await startCamera(facingMode === 'user' ? 'environment' : 'user')
   }
 
